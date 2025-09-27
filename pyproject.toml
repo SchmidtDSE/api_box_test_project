@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "test_project"
+version = "0.0.1"
+readme = "README.md"
+dependencies = []
+
+[tool.pixi.project]
+channels = ["conda-forge"]
+platforms = ["linux-64", "osx-64", "osx-arm64"]
+
+[tool.pixi.pypi-dependencies]
+api_box = { path = "../api_box", editable = true }
+
+[tool.pixi.tasks]
+api_box = "api-box"

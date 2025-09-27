@@ -1,0 +1,9 @@
+name: test-api-box
+description: Test configuration for API Box wrapper with toy remotes
+authors:
+  - name: brookie
+    email: bguzder-williams@berkeley.edu
+
+remotes:
+  - remote_1234
+  - remote_4321
