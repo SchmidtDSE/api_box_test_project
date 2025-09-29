@@ -3,6 +3,11 @@ description: "Toy API for custom route mapping testing - matches custom_mapping_
 port: 1234
 
 routes:
+  # Root endpoint for API metadata
+  - path: "/"
+    methods: ["GET"]
+    response: "api_info"
+
   # Custom endpoint structure to test route mapping
   - path: "/user-permissions/<user_id>"
     methods: ["GET"]
