@@ -1,19 +1,18 @@
 name: custom_mapping_remote
-description: Toy remote API running on port 1234 - custom route mapping with restrictions
+description: Remote API with custom route mapping to different endpoint structure
 authors:
-  - Toy API Generator
+  - API Team
 url: http://127.0.0.1:1234
-# Custom route mappings for different signatures
+
+# Routes for this remote (mix of strings and dicts)
 routes:
-  - route: "{{route_name}}/users/{user_id}/permissions"
-    remote_route: "user-permissions/{{user_id}}"
-    method: "GET"
-  - route: "{{route_name}}/users/{user_id}"
-    remote_route: "users/{{user_id}}"
-    method: "GET"
-  - route: "{{route_name}}/users/{user_id}/profile"
-    remote_route: "profiles/{{user_id}}"
-    method: "GET"
+  - users                                      # String: Simple GET route
+  - users/{{user_id}}                         # String: Simple GET route
+  - users/{{user_id}}/profile                 # String: Simple GET route
+  - route: users/{{user_id}}/permissions      # Dict with custom mapping
+    remote_route: user-permissions/{{user_id}}
+    method: get
+
 # Additional restrictions for this remote
 restricted:
-  - users/{{}}/settings
+  - users/{{user_id}}/settings
