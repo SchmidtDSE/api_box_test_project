@@ -6,10 +6,10 @@ url: http://127.0.0.1:9090
 
 # Only these routes are allowed (whitelist approach)
 routes:
-  - users                     # List all users
-  - users/{{}}                # Get specific user
-  - users/{{}}/profile        # Get user profile
-  - users/{{}}/posts          # Get user posts
-  - posts                     # List all posts
-  - posts/{{}}                # Get specific post
-  - health                    # Health check endpoint
+  - users                          # List all users
+  - users/{{user_id}}              # Get specific user
+  - users/{{user_id}}/profile     # Get user profile
+  - users/{{user_id}}/posts       # Get user posts
+  - posts                          # List all posts
+  - posts/{{post_id}}              # Get specific post
+  - health                         # Health check endpoint
