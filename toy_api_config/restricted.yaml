@@ -3,6 +3,11 @@ description: "Toy API for restriction testing - matches restricted_remote"
 port: 8080
 
 routes:
+  # Root endpoint for API metadata
+  - path: "/"
+    methods: ["GET"]
+    response: "api_info"
+
   # Basic user routes (some will be restricted by api-box)
   - path: "/users"
     methods: ["GET"]
