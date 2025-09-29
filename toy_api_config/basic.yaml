@@ -3,6 +3,11 @@ description: "Toy API for basic route testing - matches basic_remote"
 port: 4321
 
 routes:
+  # Root endpoint for API metadata
+  - path: "/"
+    methods: ["GET"]
+    response: "api_info"
+
   # Basic user routes
   - path: "/users"
     methods: ["GET"]
