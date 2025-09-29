@@ -1,101 +1,158 @@
-# Test Project
+# API Box Test Project
 
-Configuration project for testing API Box functionality with multiple remote API configurations.
+Integration testing environment for [API Box](https://github.com/SchmidtDSE/api_box) route restrictions using configurable [Toy API](https://github.com/brookisme/toy_api) servers.
 
-## Description
+## Quick Start Commands
 
-This project contains configuration files for testing API Box's ability to proxy requests to multiple remote APIs. It includes a main configuration file and several remote API configuration files to demonstrate different routing and access control scenarios.
+Copy and paste these commands to get the full test environment running:
+
+### Terminal 1 - Start Toy APIs
+```bash
+# Start basic remote (port 4321)
+pixi run toy_api basic
+
+# In another terminal:
+# Start custom mapping remote (port 1234)
+pixi run toy_api custom_mapping
+
+# In another terminal:
+# Start restricted remote (port 8080)
+pixi run toy_api restricted
+
+# In another terminal:
+# Start allowed routes remote (port 9090)
+pixi run toy_api allowed_routes
+```
+
+### Terminal 2 - Start API Box
+```bash
+# Run API Box from test_project root directory
+pixi run api-box
+```
+
+### Terminal 3 - Run Integration Tests
+```bash
+# Run comprehensive route restriction tests
+cd test_project
+python test_api_box_with_toy_api.py
+
+# Or run manual tests:
+curl http://localhost:8000/basic_remote/latest/users/123/profile        # Should work
+curl http://localhost:8000/basic_remote/latest/users/123/delete         # Should be blocked
+curl http://localhost:8000/restricted_remote/latest/admin/dashboard     # Should be blocked
+curl http://localhost:8000/allowed_routes_remote/latest/users           # Should work
+curl http://localhost:8000/allowed_routes_remote/latest/users/123/settings  # Should be blocked
+```
+
+## What This Project Tests
+
+This project provides a comprehensive testing environment for **API Box route restrictions** functionality. It demonstrates:
+
+- **Global route restrictions** - patterns blocked across all remotes
+- **Remote-specific restrictions** - additional restrictions for specific APIs
+- **Allowed routes (whitelisting)** - only specific patterns allowed
+- **Custom route mapping** - mapping between different API endpoint structures
+
+## Project Components
+
+### API Box Configuration (`api_box_config/`)
+- `config.yaml` - Main API Box configuration with global restrictions
+- `remotes/` - Individual remote configurations:
+  - `basic_remote.yaml` - Basic API (port 4321) with minimal restrictions
+  - `custom_mapping_remote.yaml` - Custom route mapping API (port 1234)
+  - `restricted_remote.yaml` - Heavily restricted API (port 8080)
+  - `allowed_routes_remote.yaml` - Whitelist-only API (port 9090)
+
+### Toy API Configuration (`toy_api_config/`)
+Matching configurations that define the actual routes for each toy API server:
+- `basic.yaml` - Basic routes for testing
+- `custom_mapping.yaml` - Custom endpoint structure
+- `restricted.yaml` - Routes that will be restricted by API Box
+- `allowed_routes.yaml` - Mix of allowed and blocked routes
+
+### Integration Tests
+- `test_api_box_with_toy_api.py` - Comprehensive test suite with 15+ test cases
+- `test_route_restrictions.py` - Direct API Box config testing
+- `ROUTE_RESTRICTIONS_TEST.md` - Testing documentation
+
+## Dependencies
+
+- **[API Box](https://github.com/SchmidtDSE/api_box)** - The API gateway being tested
+- **[Toy API](https://github.com/brookisme/toy_api)** - Configurable test API servers
+- **Python 3.8+** with PyYAML for config parsing
 
 ## Project Structure
 
 ```
 test_project/
-├── config/
-│   ├── config.yaml          # Main API Box configuration
-│   └── remotes/
-│       ├── remote_1234.yaml # Remote API configuration example 1
-│       └── remote_4321.yaml # Remote API configuration example 2
-├── pixi.lock                # Pixi dependency lockfile
-└── pyproject.toml          # Project configuration and dependencies
+├── api_box_config/              # API Box configurations
+│   ├── config.yaml              # Main config with global restrictions
+│   └── remotes/                 # Remote-specific configurations
+│       ├── basic_remote.yaml
+│       ├── custom_mapping_remote.yaml
+│       ├── restricted_remote.yaml
+│       └── allowed_routes_remote.yaml
+├── toy_api_config/              # Toy API configurations
+│   ├── basic.yaml
+│   ├── custom_mapping.yaml
+│   ├── restricted.yaml
+│   └── allowed_routes.yaml
+├── test_api_box_with_toy_api.py # Integration test suite
+├── test_route_restrictions.py   # Config-only tests
+└── README.md                    # This file
 ```
 
-## Configuration Files
+## Test Scenarios
 
-### Main Config (`config/config.yaml`)
-Contains the primary API Box configuration including:
-- Project metadata (name, description, authors)
-- List of remote APIs to proxy
-- Global routing and access control rules
+### Global Restrictions (all remotes)
+- `users/{user_id}/delete` - Blocked across all APIs
+- `admin/{admin_id}/dangerous` - Blocked dangerous admin routes
 
-### Remote Configs (`config/remotes/*.yaml`)
-Individual configuration files for each remote API, containing:
-- Remote API connection details (URL, authentication)
-- API-specific routing rules
-- Access control restrictions
+### Remote-Specific Restrictions
+- `restricted_remote` blocks additional patterns:
+  - `users/{user_id}/permissions`
+  - `admin/*` (all admin routes)
 
-## Quick Start
+### Allowed Routes (whitelist)
+- `allowed_routes_remote` only allows specific patterns:
+  - `users`, `users/{user_id}`, `users/{user_id}/profile`
+  - `users/{user_id}/posts`, `posts`, `posts/{post_id}`
+  - `health`
 
-### Prerequisites
+### Custom Route Mapping
+- `custom_mapping_remote` demonstrates mapping between different API structures
+- API Box route `users/{user_id}/permissions` → Toy API `/user-permissions/{user_id}`
 
-Requirements are managed through a [Pixi](https://pixi.sh/latest) project environment:
+## Setup Instructions
 
-```bash
-# Install dependencies
-pixi install
-```
-
-### Usage with API Box
-
-This configuration project is designed to be used with API Box:
-
-1. **Start the remote APIs** (if using Toy API):
+1. **Install Toy API**:
    ```bash
-   cd ../toy_api
-   pixi run toy-api --port 1234
-   pixi run toy-api --port 4321
+   pip install toy_api
+   # or clone from: https://github.com/brookisme/toy_api
    ```
 
-2. **Start API Box with this configuration**:
+2. **Initialize local toy API configs** (optional):
    ```bash
-   cd ../api_box
-   pixi run api-box --config ../test_project/config/config.yaml
+   toy_api --init-config
+   # Copies toy_api configs to local toy_api_config/ directory
    ```
 
-3. **Test the proxy functionality**:
+3. **Clone API Box**:
    ```bash
-   # Access remote APIs through API Box
-   curl http://localhost:8000/remote_1234/latest/users/
-   curl http://localhost:8000/remote_4321/latest/users/
+   git clone https://github.com/SchmidtDSE/api_box.git
+   cd api_box && pixi install
    ```
 
-## Configuration Examples
+4. **Run the test environment** using the Quick Start Commands above
 
-### Main Configuration Structure
-```yaml
-name: "Test Project"
-description: "Configuration for testing API Box"
-authors: ["Developer"]
-remotes:
-  - "remote_1234"
-  - "remote_4321"
-```
+## Validation
 
-### Remote Configuration Structure
-```yaml
-name: "remote_1234"
-url: "http://localhost:1234"
-description: "Test remote API on port 1234"
-```
-
-## Development
-
-This configuration project demonstrates:
-- Multi-remote API setup
-- Configuration file organization
-- API Box routing capabilities
-- Access control testing scenarios
-
-Use this project as a reference for setting up your own API Box configurations.
+The integration tests validate that:
+- ✅ Global restrictions apply to all remotes
+- ✅ Remote-specific restrictions override global settings
+- ✅ Whitelist approach works correctly
+- ✅ Custom route mapping respects restrictions
+- ✅ Port management handles multiple APIs correctly
 
 ## License
 
