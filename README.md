@@ -31,17 +31,23 @@ pixi run api-box
 ```
 
 ### Terminal 3 - Run Integration Tests
+
 ```bash
 # Run comprehensive route restriction tests
-cd api_box_test_project
 python test_api_box_with_toy_api.py
+```
 
-# Or run manual tests:
-curl http://localhost:8000/basic_remote/latest/users/123/profile        # Should work
-curl http://localhost:8000/basic_remote/latest/users/123/delete         # Should be blocked
-curl http://localhost:8000/restricted_remote/latest/admin/dashboard     # Should be blocked
-curl http://localhost:8000/allowed_routes_remote/latest/users           # Should work
-curl http://localhost:8000/allowed_routes_remote/latest/users/123/settings  # Should be blocked
+or run manual tests:
+
+```bash
+# Working Endpoints
+curl http://localhost:8000/basic_remote/latest/users/123/profile  
+curl http://localhost:8000/allowed_routes_remote/latest/users
+
+# Blocked Endpoints
+curl http://localhost:8000/basic_remote/latest/users/123/delete
+curl http://localhost:8000/restricted_remote/latest/admin/dashboard
+curl http://localhost:8000/allowed_routes_remote/latest/users/123/settings  
 ```
 
 ## What This Project Tests
