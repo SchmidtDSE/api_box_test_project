@@ -1,0 +1,15 @@
+name: allowed_routes_remote
+description: Remote API with explicit whitelist of allowed routes only
+authors:
+  - API Team
+url: http://127.0.0.1:9090
+
+# Only these routes are allowed (whitelist approach)
+routes:
+  - users                     # List all users
+  - users/{{}}                # Get specific user
+  - users/{{}}/profile        # Get user profile
+  - users/{{}}/posts          # Get user posts
+  - posts                     # List all posts
+  - posts/{{}}                # Get specific post
+  - health                    # Health check endpoint

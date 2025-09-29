@@ -1,0 +1,13 @@
+name: restricted_remote
+description: Remote API with extensive route restrictions for security testing
+authors:
+  - Security Team
+url: http://127.0.0.1:8080
+
+# This remote has additional restrictions beyond global ones
+restricted:
+  - users/{{}}/permissions    # Block access to user permissions
+  - admin                     # Block all admin routes
+  - admin/{{}}                # Block all admin subroutes
+  - system/{{}}/config        # Block system configuration access
+  - users/{{}}/private        # Block private user data

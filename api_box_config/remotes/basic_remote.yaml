@@ -1,0 +1,5 @@
+name: basic_remote
+description: Toy remote API running on port 4321 - unrestricted (inherits global restrictions only)
+authors:
+  - Toy API Generator
+url: http://127.0.0.1:4321

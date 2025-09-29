@@ -1,5 +1,0 @@
-name: another_name
-description: Toy remote API running on port 1234
-authors:
-  - Toy API Generator
-url: http://127.0.0.1:1234

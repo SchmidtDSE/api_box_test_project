@@ -1,0 +1,16 @@
+name: test-api-box
+description: Test configuration for API Box wrapper with toy remotes - testing restrictions and routes
+authors:
+  - name: brookie
+    email: bguzder-williams@berkeley.edu
+
+remotes:
+  - custom_mapping_remote
+  - basic_remote
+  - restricted_remote
+  - allowed_routes_remote
+
+# Global restrictions (applied to all remotes unless overridden)
+restricted:
+  - users/{{}}/delete
+  - admin/{{}}/dangerous
