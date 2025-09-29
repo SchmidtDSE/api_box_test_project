@@ -26,14 +26,14 @@ pixi run toy_api allowed_routes
 
 ### Terminal 2 - Start API Box
 ```bash
-# Run API Box from test_project root directory
+# Run API Box from api_box_test_project root directory
 pixi run api-box
 ```
 
 ### Terminal 3 - Run Integration Tests
 ```bash
 # Run comprehensive route restriction tests
-cd test_project
+cd api_box_test_project
 python test_api_box_with_toy_api.py
 
 # Or run manual tests:
@@ -84,7 +84,7 @@ Matching configurations that define the actual routes for each toy API server:
 ## Project Structure
 
 ```
-test_project/
+api_box_test_project/
 ├── api_box_config/              # API Box configurations
 │   ├── config.yaml              # Main config with global restrictions
 │   └── remotes/                 # Remote-specific configurations
