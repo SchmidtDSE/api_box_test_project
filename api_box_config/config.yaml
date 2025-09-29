@@ -10,7 +10,11 @@ remotes:
   - restricted_remote
   - allowed_routes_remote
 
+# Non-remote endpoints (API Box's own endpoints)
+endpoints:
+  - "/"                    # API metadata and information
+
 # Global restrictions (applied to all remotes unless overridden)
 restricted:
-  - users/{{}}/delete
-  - admin/{{}}/dangerous
+  - users/{{user_id}}/delete
+  - admin/{{admin_id}}/dangerous
