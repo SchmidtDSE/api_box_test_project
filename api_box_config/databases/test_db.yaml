@@ -4,7 +4,7 @@ authors:
   - API Team
 
 tables:
-  users: tables/users.parquet
+  users: gs://dse-soundhub-public/api_testing/tables/users.parquet
   user_permissions: tables/user_permissions.parquet
   posts: tables/posts.parquet
 
