@@ -1,0 +1,10 @@
+name: versioned_remote
+description: Versioned test remote API - Version 0.2
+url: http://localhost:5000
+
+routes:
+  - health
+  - users
+  - users/{{user_id}}
+  - users/{{user_id}}/profile
+  - posts
