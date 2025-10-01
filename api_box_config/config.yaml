@@ -10,6 +10,9 @@ remotes:
   - restricted_remote
   - allowed_routes_remote
 
+databases:
+  - test_db
+
 # Non-remote endpoints (API Box's own endpoints)
 endpoints:
   - "/"                    # API metadata and information
