@@ -8,20 +8,20 @@ Copy and paste these commands to get the full test environment running:
 
 ### Terminal 1 - Start Toy APIs
 ```bash
-# Start basic remote (port 4321)
-pixi run toy_api basic
+# Start all toy APIs in background
+pixi run toy_api start --all
 
-# In another terminal:
-# Start custom mapping remote (port 1234)
-pixi run toy_api custom_mapping
+# Or start them individually in separate terminals:
+# pixi run toy_api start basic
+# pixi run toy_api start custom_mapping
+# pixi run toy_api start restricted
+# pixi run toy_api start allowed_routes
 
-# In another terminal:
-# Start restricted remote (port 8080)
-pixi run toy_api restricted
+# Check running servers
+pixi run toy_api ps
 
-# In another terminal:
-# Start allowed routes remote (port 9090)
-pixi run toy_api allowed_routes
+# Stop all servers when done
+pixi run toy_api stop --all
 ```
 
 ### Terminal 2 - Start API Box
