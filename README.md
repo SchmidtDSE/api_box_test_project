@@ -21,20 +21,20 @@ pixi run api-box start
 
 ### ENDPOINT TESTS
 
-#### Basic Remote API - Working
-
 ```bash
+# ========================================
+# Basic Remote API - Working
+# ========================================
 # Basic user routes (inherits global restrictions only)
 curl http://localhost:8000/basic_remote/users
 curl http://localhost:8000/basic_remote/users/1005
 curl http://localhost:8000/basic_remote/users/1005/profile
 curl http://localhost:8000/basic_remote/users/1005/permissions
 curl http://localhost:8000/basic_remote/health
-```
 
-#### Versioned Remote API - Working
-
-```bash
+# ========================================
+# Versioned Remote API - Working
+# ========================================
 # Specific version (1.2)
 curl http://localhost:8000/versioned_remote/1.2/users
 curl http://localhost:8000/versioned_remote/1.2/users/1005
@@ -46,11 +46,10 @@ curl http://localhost:8000/versioned_remote/1.2/health
 curl http://localhost:8000/versioned_remote/latest/users
 curl http://localhost:8000/versioned_remote/latest/users/1005
 curl http://localhost:8000/versioned_remote/latest/health
-```
 
-#### Allowed Routes Remote API - Working (Whitelist)
-
-```bash
+# ========================================
+# Allowed Routes Remote API - Working (Whitelist)
+# ========================================
 # Only explicitly allowed routes work
 curl http://localhost:8000/allowed_routes_remote/users
 curl http://localhost:8000/allowed_routes_remote/users/1005
@@ -58,11 +57,10 @@ curl http://localhost:8000/allowed_routes_remote/users/1005/profile
 curl http://localhost:8000/allowed_routes_remote/users/1005/posts
 curl http://localhost:8000/allowed_routes_remote/posts
 curl http://localhost:8000/allowed_routes_remote/health
-```
 
-#### Remote API Endpoints - Blocked
-
-```bash
+# ========================================
+# Remote API Endpoints - Blocked
+# ========================================
 # Basic remote - globally restricted
 curl http://localhost:8000/basic_remote/users/1005/delete
 curl http://localhost:8000/basic_remote/admin/5/dangerous
@@ -76,11 +74,10 @@ curl http://localhost:8000/restricted_remote/users/1005/private
 # Allowed routes remote - not in whitelist
 curl http://localhost:8000/allowed_routes_remote/users/1005/settings
 curl http://localhost:8000/allowed_routes_remote/admin
-```
 
-#### SQL Database Endpoints - test_db
-
-```bash
+# ========================================
+# SQL Database Endpoints - test_db
+# ========================================
 # User queries
 curl http://localhost:8000/test_db/users
 curl http://localhost:8000/test_db/users/1005
@@ -91,11 +88,10 @@ curl http://localhost:8000/test_db/users/active
 # Post queries
 curl http://localhost:8000/test_db/posts
 curl http://localhost:8000/test_db/posts/10
-```
 
-#### SQL Database Endpoints - versioned_db
-
-```bash
+# ========================================
+# SQL Database Endpoints - versioned_db
+# ========================================
 # Specific version (1.2)
 curl http://localhost:8000/versioned_db/1.2/users
 curl http://localhost:8000/versioned_db/1.2/users/1005
