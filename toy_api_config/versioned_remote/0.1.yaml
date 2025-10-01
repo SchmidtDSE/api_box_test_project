@@ -1,14 +1,43 @@
+# name: versioned_remote
+# description: Versioned toy API - Version 0.1
+# host: 0.0.0.0
+# port: 5000
+
+# routes:
+#   - path: "/health"
+#     methods: ["GET"]
+#     response:
+#       status: ok
+#       version: "0.1"
+
+#   - path: "/users"
+#     methods: ["GET"]
+#     response:
+#       - user_id: 1
+#         name: Alice
+#       - user_id: 2
+#         name: Bob
+#       - user_id: 3
+#         name: Carol
+
+#   - path: "/users/<user_id>"
+#     methods: ["GET"]
+#     response:
+#       user_id: "{{user_id}}"
+#       name: "User {{user_id}}"
+#       email: "user{{user_id}}@example.com"
+
 name: versioned_remote
-description: Versioned toy API - Version 0.1
+description: Versioned toy API - Version 0.2 0.1 version
 host: 0.0.0.0
-port: 5000
+port: 5200
 
 routes:
   - path: "/health"
     methods: ["GET"]
     response:
       status: ok
-      version: "0.1"
+      version: "0.2"
 
   - path: "/users"
     methods: ["GET"]
@@ -26,3 +55,23 @@ routes:
       user_id: "{{user_id}}"
       name: "User {{user_id}}"
       email: "user{{user_id}}@example.com"
+
+  - path: "/users/<user_id>/profile"
+    methods: ["GET"]
+    response:
+      user_id: "{{user_id}}"
+      bio: "This is the profile for user {{user_id}}"
+      joined: "2024-01-01"
+
+  - path: "/posts"
+    methods: ["GET"]
+    response:
+      - post_id: 1
+        user_id: 1
+        title: "First post"
+      - post_id: 2
+        user_id: 1
+        title: "Second post"
+      - post_id: 3
+        user_id: 2
+        title: "Another post"
