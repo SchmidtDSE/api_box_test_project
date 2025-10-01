@@ -27,7 +27,8 @@ pixi run toy_api allowed_routes
 ### Terminal 2 - Start API Box
 ```bash
 # Run API Box from api_box_test_project root directory
-pixi run api-box
+# (Uses api_box_config/ in current directory)
+pixi run api-box start
 ```
 
 ### Terminal 3 - Run Integration Tests
@@ -40,34 +41,43 @@ python test_api_box_with_toy_api.py
 or run manual tests:
 
 ```bash
-# Working Endpoints
-curl http://localhost:8000/basic_remote/latest/users/123/profile  
+# Remote API Endpoints - Working
+curl http://localhost:8000/basic_remote/latest/users/123/profile
 curl http://localhost:8000/allowed_routes_remote/latest/users
 
-# Blocked Endpoints
+# Remote API Endpoints - Blocked
 curl http://localhost:8000/basic_remote/latest/users/123/delete
 curl http://localhost:8000/restricted_remote/latest/admin/dashboard
-curl http://localhost:8000/allowed_routes_remote/latest/users/123/settings  
+curl http://localhost:8000/allowed_routes_remote/latest/users/123/settings
+
+# SQL Database Endpoints
+curl http://localhost:8000/test_db/users
+curl http://localhost:8000/test_db/users/5
+curl http://localhost:8000/test_db/users/5/permissions
+curl http://localhost:8000/test_db/users/5/posts
 ```
 
 ## What This Project Tests
 
-This project provides a comprehensive testing environment for **API Box route restrictions** functionality. It demonstrates:
+This project provides a comprehensive testing environment for **API Box** functionality. It demonstrates:
 
-- **Global route restrictions** - patterns blocked across all remotes
-- **Remote-specific restrictions** - additional restrictions for specific APIs
-- **Allowed routes (whitelisting)** - only specific patterns allowed
-- **Custom route mapping** - mapping between different API endpoint structures
+- **Route restrictions** - Global and remote-specific access control
+- **Allowed routes (whitelisting)** - Only specific patterns allowed
+- **Custom route mapping** - Mapping between different API endpoint structures
+- **SQL database support** - Querying Parquet files via REST endpoints
+- **Cloud storage** - Database tables from S3, GCS, HTTPS, and local paths
 
 ## Project Components
 
 ### API Box Configuration (`api_box_config/`)
-- `config.yaml` - Main API Box configuration with global restrictions
+- `config.yaml` - Main API Box configuration with global restrictions and databases
 - `remotes/` - Individual remote configurations:
   - `basic_remote.yaml` - Basic API (port 4321) with minimal restrictions
   - `custom_mapping_remote.yaml` - Custom route mapping API (port 1234)
   - `restricted_remote.yaml` - Heavily restricted API (port 8080)
   - `allowed_routes_remote.yaml` - Whitelist-only API (port 9090)
+- `databases/` - SQL database configurations:
+  - `test_db.yaml` - Test database with users, permissions, and posts tables
 
 ### Toy API Configuration (`toy_api_config/`)
 Matching configurations that define the actual routes for each toy API server:
@@ -75,11 +85,19 @@ Matching configurations that define the actual routes for each toy API server:
 - `custom_mapping.yaml` - Custom endpoint structure
 - `restricted.yaml` - Routes that will be restricted by API Box
 - `allowed_routes.yaml` - Mix of allowed and blocked routes
+- `databases/` - Table generation configurations:
+  - `test_db.yaml` - Generates test parquet files for SQL testing
 
 ### Integration Tests
 - `test_api_box_with_toy_api.py` - Comprehensive test suite with 15+ test cases
 - `test_route_restrictions.py` - Direct API Box config testing
+- `test_sql_functionality.py` - SQL database functionality tests
 - `ROUTE_RESTRICTIONS_TEST.md` - Testing documentation
+
+### Data Generation
+- `generate_test_data.py` - Generates parquet files for SQL testing
+- `debug_table_gen.py` - Debug utility for table generation
+- `tables/` - Generated parquet files (users, permissions, posts)
 
 ## Dependencies
 
@@ -91,21 +109,34 @@ Matching configurations that define the actual routes for each toy API server:
 
 ```
 api_box_test_project/
-├── api_box_config/              # API Box configurations
-│   ├── config.yaml              # Main config with global restrictions
-│   └── remotes/                 # Remote-specific configurations
-│       ├── basic_remote.yaml
-│       ├── custom_mapping_remote.yaml
-│       ├── restricted_remote.yaml
-│       └── allowed_routes_remote.yaml
-├── toy_api_config/              # Toy API configurations
+├── api_box_config/                    # API Box configurations
+│   ├── config.yaml                    # Main config with restrictions & databases
+│   ├── remotes/                       # Remote-specific configurations
+│   │   ├── basic_remote.yaml
+│   │   ├── custom_mapping_remote.yaml
+│   │   ├── restricted_remote.yaml
+│   │   └── allowed_routes_remote.yaml
+│   └── databases/                     # SQL database configurations
+│       └── test_db.yaml               # Test database with parquet tables
+├── toy_api_config/                    # Toy API configurations
 │   ├── basic.yaml
 │   ├── custom_mapping.yaml
 │   ├── restricted.yaml
-│   └── allowed_routes.yaml
-├── test_api_box_with_toy_api.py # Integration test suite
-├── test_route_restrictions.py   # Config-only tests
-└── README.md                    # This file
+│   ├── allowed_routes.yaml
+│   └── databases/                     # Table generation configs
+│       └── test_db.yaml               # Generates test parquet data
+├── tables/                            # Generated parquet files
+│   ├── users.parquet
+│   ├── user_permissions.parquet
+│   └── posts.parquet
+├── tests/                             # Test suite
+│   ├── test_api_box_with_toy_api.py  # Integration tests
+│   ├── test_route_restrictions.py    # Config tests
+│   └── test_unified_routes.py        # Route testing
+├── test_sql_functionality.py          # SQL database tests
+├── generate_test_data.py              # Data generation script
+├── debug_table_gen.py                 # Debug utility
+└── README.md                          # This file
 ```
 
 ## Test Scenarios
@@ -159,6 +190,34 @@ The integration tests validate that:
 - ✅ Whitelist approach works correctly
 - ✅ Custom route mapping respects restrictions
 - ✅ Port management handles multiple APIs correctly
+- ✅ SQL database routes execute queries correctly
+- ✅ Table references and parameter substitution work
+- ✅ Named queries resolve properly
+- ✅ DuckDB integration functions with parquet files
+
+## SQL Database Testing
+
+To test SQL functionality:
+
+```bash
+# Generate test data (creates parquet files in tables/)
+python generate_test_data.py
+
+# Run SQL functionality tests
+python test_sql_functionality.py
+
+# Test via curl
+curl http://localhost:8000/test_db/users           # Get all users
+curl http://localhost:8000/test_db/users/5         # Get user 5
+curl http://localhost:8000/test_db/users/5/posts   # Get posts for user 5
+```
+
+The test database demonstrates:
+- **Table references**: `[[users]]` → `'tables/users.parquet' AS users`
+- **Parameter substitution**: `{{user_id}}` → `'5'` (SQL-escaped)
+- **Named queries**: Reusable SQL templates
+- **Joins**: Cross-table queries with foreign keys
+- **Cloud paths**: Can use s3://, gs://, https:// URIs in table definitions
 
 ## License
 
