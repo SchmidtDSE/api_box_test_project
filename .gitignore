@@ -1,17 +1,18 @@
 #***************************************************************************
-# Codebase 
+# Codebase
 #***************************************************************************
 # -- ignore files/folders that begin with playground/scratch/Untitled
 playground*
 scratch*
 Untitled*
 dev*
-# -- ignore notebooks by default : use git add -f filename.ipynb to add 
+# -- ignore notebooks by default : use git add -f filename.ipynb to add
 *.ipynb
 # -- ignore directories
 tmp/
 downloads/
 logs/
+.toy_api/
 
 
 #***************************************************************************
