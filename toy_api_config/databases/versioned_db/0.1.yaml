@@ -1,0 +1,24 @@
+name: versioned_db
+description: Versioned test database for toy_api - Version 0.1
+
+tables:
+  users:
+    num_rows: 10
+    columns:
+      - name: user_id
+        type: int
+        sequence: true
+      - name: name
+        type: string
+        values:
+          - Alice
+          - Bob
+          - Carol
+          - David
+          - Eve
+      - name: email
+        type: string
+        template: "user{user_id}@example.com"
+      - name: active
+        type: bool
+        probability: 0.8

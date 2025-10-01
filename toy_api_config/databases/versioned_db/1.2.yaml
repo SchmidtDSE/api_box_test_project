@@ -1,0 +1,71 @@
+name: versioned_db
+description: Versioned test database for toy_api - Version 1.2 (latest)
+
+tables:
+  users:
+    num_rows: 10
+    columns:
+      - name: user_id
+        type: int
+        sequence: true
+      - name: name
+        type: string
+        values:
+          - Alice
+          - Bob
+          - Carol
+          - David
+          - Eve
+      - name: email
+        type: string
+        template: "user{user_id}@example.com"
+      - name: active
+        type: bool
+        probability: 0.8
+
+  user_permissions:
+    num_rows: 20
+    columns:
+      - name: user_id
+        type: int
+        min: 1
+        max: 10
+      - name: permission_name
+        type: string
+        values:
+          - read
+          - write
+          - admin
+          - delete
+      - name: granted_date
+        type: date
+        start: 2024-01-01
+        end: 2024-12-31
+
+  posts:
+    num_rows: 30
+    columns:
+      - name: post_id
+        type: int
+        sequence: true
+      - name: user_id
+        type: int
+        min: 1
+        max: 10
+      - name: title
+        type: string
+        template: "Post {post_id} Title"
+      - name: content
+        type: string
+        template: "This is the content for post {post_id}"
+      - name: tags
+        type: string
+        values:
+          - tech
+          - news
+          - tutorial
+          - discussion
+      - name: created_date
+        type: date
+        start: 2024-01-01
+        end: 2024-12-31
