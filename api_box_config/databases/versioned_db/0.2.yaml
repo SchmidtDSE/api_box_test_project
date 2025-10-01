@@ -1,0 +1,25 @@
+name: versioned_db
+description: Versioned test database - Version 0.2
+authors:
+  - API Team
+
+tables:
+  users: tables/users.parquet
+  user_permissions: tables/user_permissions.parquet
+
+queries:
+  get_user_permissions: |
+    SELECT [[users]].user_id, [[users]].name, [[user_permissions]].permission_name
+    FROM [[users]]
+    JOIN [[user_permissions]] ON [[users]].user_id = [[user_permissions]].user_id
+    WHERE [[users]].user_id = {{user_id}}
+
+routes:
+  - route: users
+    sql: SELECT [[users]].* FROM [[users]]
+
+  - route: users/{{user_id}}
+    sql: SELECT [[users]].* FROM [[users]] WHERE [[users]].user_id = {{user_id}}
+
+  - route: users/{{user_id}}/permissions
+    sql: "[[get_user_permissions]]"

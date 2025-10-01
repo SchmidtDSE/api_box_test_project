@@ -1,0 +1,14 @@
+name: versioned_db
+description: Versioned test database - Version 0.1
+authors:
+  - API Team
+
+tables:
+  users: tables/users.parquet
+
+routes:
+  - route: users
+    sql: SELECT [[users]].* FROM [[users]]
+
+  - route: users/{{user_id}}
+    sql: SELECT [[users]].* FROM [[users]] WHERE [[users]].user_id = {{user_id}}
