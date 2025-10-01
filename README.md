@@ -35,7 +35,11 @@ pixi run api-box start
 
 ```bash
 # Run comprehensive route restriction tests
-python test_api_box_with_toy_api.py
+python tests/test_api_box_with_toy_api.py
+
+# Or run specific test suites
+python tests/test_route_restrictions.py
+python tests/test_sql_functionality.py
 ```
 
 or run manual tests:
@@ -88,10 +92,11 @@ Matching configurations that define the actual routes for each toy API server:
 - `databases/` - Table generation configurations:
   - `test_db.yaml` - Generates test parquet files for SQL testing
 
-### Integration Tests
+### Integration Tests (`tests/`)
 - `test_api_box_with_toy_api.py` - Comprehensive test suite with 15+ test cases
 - `test_route_restrictions.py` - Direct API Box config testing
 - `test_sql_functionality.py` - SQL database functionality tests
+- `test_unified_routes.py` - Route testing
 - `ROUTE_RESTRICTIONS_TEST.md` - Testing documentation
 
 ### Data Generation
@@ -132,8 +137,8 @@ api_box_test_project/
 ├── tests/                             # Test suite
 │   ├── test_api_box_with_toy_api.py  # Integration tests
 │   ├── test_route_restrictions.py    # Config tests
+│   ├── test_sql_functionality.py     # SQL database tests
 │   └── test_unified_routes.py        # Route testing
-├── test_sql_functionality.py          # SQL database tests
 ├── generate_test_data.py              # Data generation script
 ├── debug_table_gen.py                 # Debug utility
 └── README.md                          # This file
@@ -204,7 +209,7 @@ To test SQL functionality:
 python generate_test_data.py
 
 # Run SQL functionality tests
-python test_sql_functionality.py
+python tests/test_sql_functionality.py
 
 # Test via curl
 curl http://localhost:8000/test_db/users           # Get all users
