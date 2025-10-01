@@ -1,0 +1,25 @@
+name: versioned_remote
+description: Versioned toy API - Version 0.1
+host: 0.0.0.0
+port: 5000
+
+routes:
+  - route: health
+    response:
+      status: ok
+      version: "0.1"
+
+  - route: users
+    response:
+      - user_id: 1
+        name: Alice
+      - user_id: 2
+        name: Bob
+      - user_id: 3
+        name: Carol
+
+  - route: users/{{user_id}}
+    response:
+      user_id: "{{user_id}}"
+      name: "User {{user_id}}"
+      email: "user{{user_id}}@example.com"
