@@ -1,0 +1,58 @@
+name: versioned_remote
+description: Versioned toy API for testing API Box versioning
+host: 0.0.0.0
+port: 5000
+
+routes:
+  - route: health
+    response:
+      status: ok
+      version: "{{VERSION}}"
+
+  - route: users
+    response:
+      - user_id: 1
+        name: Alice
+      - user_id: 2
+        name: Bob
+      - user_id: 3
+        name: Carol
+
+  - route: users/{{user_id}}
+    response:
+      user_id: "{{user_id}}"
+      name: "User {{user_id}}"
+      email: "user{{user_id}}@example.com"
+
+  - route: users/{{user_id}}/profile
+    response:
+      user_id: "{{user_id}}"
+      bio: "This is the profile for user {{user_id}}"
+      joined: "2024-01-01"
+
+  - route: users/{{user_id}}/posts
+    response:
+      user_id: "{{user_id}}"
+      posts:
+        - post_id: 1
+          title: "First post"
+        - post_id: 2
+          title: "Second post"
+
+  - route: posts
+    response:
+      - post_id: 1
+        user_id: 1
+        title: "First post"
+      - post_id: 2
+        user_id: 1
+        title: "Second post"
+      - post_id: 3
+        user_id: 2
+        title: "Another post"
+
+  - route: posts/{{post_id}}
+    response:
+      post_id: "{{post_id}}"
+      title: "Post {{post_id}}"
+      content: "Content for post {{post_id}}"
