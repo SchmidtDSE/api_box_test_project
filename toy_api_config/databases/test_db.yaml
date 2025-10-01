@@ -1,0 +1,32 @@
+config:
+  NB_USERS: 20
+  NB_POSTS: 50
+
+shared:
+  user_id[[NB_USERS]]: UNIQUE[int]
+  post_id[[NB_POSTS]]: UNIQUE[int]
+
+tables:
+  users[[NB_USERS]]:
+    user_id: [[user_id]]
+    name: NAME
+    email: str
+    age: CHOOSE[[21-65]]
+    location: LOCATION
+    active: bool
+    created_date: DATE[%Y-%m-%d %H:%M:%S]
+
+  user_permissions[[NB_USERS]]:
+    user_id: [[user_id]]
+    permission_name: PERMISSION
+    granted_date: DATE
+    granted_by: NAME
+
+  posts[[NB_POSTS]]:
+    post_id: [[post_id]]
+    user_id: CHOOSE[[user_id]]
+    title: POST_TITLE
+    content: str
+    tags: POST_TAGS[3]
+    published: bool
+    created_date: DATE
