@@ -4,12 +4,14 @@ host: 0.0.0.0
 port: 5000
 
 routes:
-  - route: health
+  - path: "/health"
+    methods: ["GET"]
     response:
       status: ok
       version: "0.1"
 
-  - route: users
+  - path: "/users"
+    methods: ["GET"]
     response:
       - user_id: 1
         name: Alice
@@ -18,7 +20,8 @@ routes:
       - user_id: 3
         name: Carol
 
-  - route: users/{{user_id}}
+  - path: "/users/<user_id>"
+    methods: ["GET"]
     response:
       user_id: "{{user_id}}"
       name: "User {{user_id}}"
