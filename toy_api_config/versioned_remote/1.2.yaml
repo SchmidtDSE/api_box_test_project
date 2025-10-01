@@ -4,13 +4,13 @@ host: 0.0.0.0
 port: 5300
 
 routes:
-  - path: "/health"
+  - route: "/health"
     methods: ["GET"]
     response:
       status: ok
       version: "1.2"
 
-  - path: "/users"
+  - route: "/users"
     methods: ["GET"]
     response:
       - user_id: 1
@@ -20,21 +20,21 @@ routes:
       - user_id: 3
         name: Carol
 
-  - path: "/users/<user_id>"
+  - route: "/users/<user_id>"
     methods: ["GET"]
     response:
       user_id: "{{user_id}}"
       name: "User {{user_id}}"
       email: "user{{user_id}}@example.com"
 
-  - path: "/users/<user_id>/profile"
+  - route: "/users/<user_id>/profile"
     methods: ["GET"]
     response:
       user_id: "{{user_id}}"
       bio: "This is the profile for user {{user_id}}"
       joined: "2024-01-01"
 
-  - path: "/users/<user_id>/posts"
+  - route: "/users/<user_id>/posts"
     methods: ["GET"]
     response:
       user_id: "{{user_id}}"
@@ -44,7 +44,7 @@ routes:
         - post_id: 2
           title: "Second post"
 
-  - path: "/posts"
+  - route: "/posts"
     methods: ["GET"]
     response:
       - post_id: 1
@@ -57,7 +57,7 @@ routes:
         user_id: 2
         title: "Another post"
 
-  - path: "/posts/<post_id>"
+  - route: "/posts/<post_id>"
     methods: ["GET"]
     response:
       post_id: "{{post_id}}"
