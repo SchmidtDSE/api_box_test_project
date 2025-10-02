@@ -1,65 +1,52 @@
 name: versioned_remote
-description: Versioned toy API for testing API Box versioning
+description: Versioned toy API for testing API Box versioning - v1.2 (latest)
 host: 0.0.0.0
 port: 5300
 
 routes:
+  # Explicit response - kept as example
   - route: "/health"
     methods: ["GET"]
     response:
       status: ok
       version: "1.2"
+      uptime: "24h"
 
+  # Using custom test object for user list
   - route: "/users"
     methods: ["GET"]
-    response:
-      - user_id: 1
-        name: Alice
-      - user_id: 2
-        name: Bob
-      - user_id: 3
-        name: Carol
+    response: "test.test_user_list"
 
-  - route: "/users/<user_id>"
+  # Using core object for single user
+  - route: "/users/{{user_id}}"
     methods: ["GET"]
-    response:
-      user_id: "{{user_id}}"
-      name: "User {{user_id}}"
-      email: "user{{user_id}}@example.com"
+    response: "core.user"
 
-  - route: "/users/<user_id>/profile"
+  # Using core object for profile
+  - route: "/users/{{user_id}}/profile"
     methods: ["GET"]
-    response:
-      user_id: "{{user_id}}"
-      bio: "This is the profile for user {{user_id}}"
-      joined: "2024-01-01"
+    response: "core.user_profile"
 
-  - route: "/users/<user_id>/posts"
+  # Using custom composite object
+  - route: "/users/{{user_id}}/posts"
     methods: ["GET"]
-    response:
-      user_id: "{{user_id}}"
-      posts:
-        - post_id: 1
-          title: "First post"
-        - post_id: 2
-          title: "Second post"
+    response: "test.test_user_posts"
 
+  # Using custom test object for post list
   - route: "/posts"
     methods: ["GET"]
-    response:
-      - post_id: 1
-        user_id: 1
-        title: "First post"
-      - post_id: 2
-        user_id: 1
-        title: "Second post"
-      - post_id: 3
-        user_id: 2
-        title: "Another post"
+    response: "test.test_post_list"
 
-  - route: "/posts/<post_id>"
+  # Using core object for single post
+  - route: "/posts/{{post_id}}"
+    methods: ["GET"]
+    response: "core.post"
+
+  # Explicit response - kept as example showing inline data
+  - route: "/api/info"
     methods: ["GET"]
     response:
-      post_id: "{{post_id}}"
-      title: "Post {{post_id}}"
-      content: "Content for post {{post_id}}"
+      api_name: "Versioned Remote API"
+      version: "1.2"
+      endpoints: ["/users", "/posts", "/health"]
+      deprecated: false

@@ -1,28 +1,21 @@
 name: versioned_remote
-description: Versioned toy API - Version 0.1
+description: Versioned toy API - Version 0.1 (earliest version)
 host: 0.0.0.0
 port: 5200
 
 routes:
+  # Explicit response - minimal version
   - route: "/health"
     methods: ["GET"]
     response:
       status: ok
       version: "0.1"
 
+  # Using core objects for v0.1 (minimal feature set)
   - route: "/users"
     methods: ["GET"]
-    response:
-      - user_id: 1
-        name: Alice
-      - user_id: 2
-        name: Bob
-      - user_id: 3
-        name: Carol
+    response: "core.user_list"
 
-  - route: "/users/<user_id>"
+  - route: "/users/{{user_id}}"
     methods: ["GET"]
-    response:
-      user_id: "{{user_id}}"
-      name: "User {{user_id}}"
-      email: "user{{user_id}}@example.com"
+    response: "core.user"
