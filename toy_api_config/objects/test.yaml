@@ -38,7 +38,7 @@ restricted_user:
   name: NAME
   email: str
   access_level: CHOOSE[[restricted, limited, full]]
-  blocked_routes: CHOOSE[[delete, admin, system]][[n]]
+  blocked_routes: CHOOSE[[delete, admin, system]][n]
   reason: str
 
 # Admin test user
@@ -50,3 +50,22 @@ admin_test:
   security_clearance: CHOOSE[[low, medium, high, critical]]
   last_login: DATE[%Y-%m-%dT%H:%M:%SZ]
   test_account: bool
+
+# Test user list (paginated)
+test_user_list:
+  users: "[[object.test.test_user]][3]"
+  total: 3
+  page: 1
+  version: str
+
+# Test post list
+test_post_list:
+  posts: "[[object.test.test_post]][5]"
+  total: 5
+  page: 1
+
+# User with posts (composite)
+test_user_posts:
+  user_id: UNIQUE[int]
+  posts: "[[object.test.test_post]][2]"
+  total: 2
