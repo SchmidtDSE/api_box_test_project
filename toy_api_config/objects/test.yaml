@@ -1,0 +1,52 @@
+# Custom test objects for API Box test project
+# License: CC-BY-4.0
+
+# Enhanced test user with additional metadata
+test_user:
+  user_id: UNIQUE[int]
+  name: NAME
+  email: str
+  username: str
+  active: bool
+  test_flag: bool
+  created_at: DATE[%Y-%m-%dT%H:%M:%SZ]
+  test_group: CHOOSE[[alpha, beta, gamma]]
+
+# Test post with versioning
+test_post:
+  post_id: UNIQUE[int]
+  title: POST_TITLE
+  author: str
+  content: str
+  tags: POST_TAGS[n]
+  published: bool
+  version: CHOOSE[[v1, v2, v3]]
+  test_score: CHOOSE[[1-100]]
+
+# Test permissions with metadata
+test_permissions:
+  user_id: UNIQUE[int]
+  permissions: PERMISSIONS[n]
+  role: CHOOSE[[user, tester, moderator, admin]]
+  granted_date: DATE
+  granted_by: NAME
+  expires_at: DATE[%Y-%m-%dT%H:%M:%SZ]
+
+# Restricted user (for security testing)
+restricted_user:
+  user_id: UNIQUE[int]
+  name: NAME
+  email: str
+  access_level: CHOOSE[[restricted, limited, full]]
+  blocked_routes: CHOOSE[[delete, admin, system]][[n]]
+  reason: str
+
+# Admin test user
+admin_test:
+  admin_id: UNIQUE[int]
+  name: NAME
+  role: CHOOSE[[super_admin, admin, moderator]]
+  permissions: PERMISSIONS[n]
+  security_clearance: CHOOSE[[low, medium, high, critical]]
+  last_login: DATE[%Y-%m-%dT%H:%M:%SZ]
+  test_account: bool
