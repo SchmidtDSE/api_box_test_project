@@ -16,7 +16,7 @@ pixi run toy_api database --all
 # pixi run toy_api database versioned_db/1.2
 ```
 
-Paste these commands to get the full test environment running:
+These commands will launch a number of "remote" apis, and then launch the api-box proxy for the remote apis:
 
 ```bash
 # start up remote-apis (see: toy_api_config/apis/*.yaml)
