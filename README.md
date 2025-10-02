@@ -7,16 +7,19 @@ Integration testing environment for [API Box](https://github.com/SchmidtDSE/api_
 If you haven't created your databases you can do that with a simple command:
 
 ```bash
-# generate databases (see: toy_api_config/[config.py, databases/*.yaml])
-# - creates/outputs-files-to: CWD/tables/ folder
-pixi run toy_api database/versioned_db
-pixi run toy_api database/test_db
+# generate databases (see: toy_api_config/databases/*.yaml)
+# - creates/outputs-files-to: CWD/databases/ folder with nested structure
+pixi run toy_api database --all
+
+# Or generate specific databases:
+# pixi run toy_api database test_db
+# pixi run toy_api database versioned_db/1.2
 ```
 
 Paste these commands to get the full test environment running:
 
 ```bash
-# start up remote-apis (see: toy_api_config/[config.py, remotes/*.yaml])
+# start up remote-apis (see: toy_api_config/apis/*.yaml)
 pixi run toy_api start --all
 
 # start up api-box (see: api_box_config/)
