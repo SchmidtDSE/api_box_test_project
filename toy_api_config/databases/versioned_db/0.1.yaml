@@ -1,5 +1,5 @@
 name: versioned_db
-description: Versioned test database for toy_api - Version 0.1
+description: Versioned test database for toy_api - Version 0.1 (legacy syntax)
 
 config:
   NB_USERS: 10
@@ -8,6 +8,8 @@ shared:
   user_id[[NB_USERS]]: UNIQUE[int]
 
 tables:
+  # Version 0.1: Using old syntax (no objects)
+  # Demonstrates backward compatibility
   users[[NB_USERS]]:
     user_id: [[user_id]]
     name: NAME

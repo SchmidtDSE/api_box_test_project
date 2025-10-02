@@ -1,5 +1,5 @@
 name: versioned_db
-description: Versioned test database for toy_api - Version 1.2 (latest)
+description: Versioned test database for toy_api - Version 1.2 (latest with custom objects)
 
 config:
   NB_USERS: 10
@@ -10,21 +10,18 @@ shared:
   post_id[[NB_POSTS]]: UNIQUE[int]
 
 tables:
+  # Version 1.2: Using custom test objects
   users[[NB_USERS]]:
+    object: "test.test_user"
     user_id: [[user_id]]
-    name: NAME
-    email: str
-    active: bool
 
+  # Using custom permissions object with extensions
   user_permissions[[NB_USERS]]:
+    object: "test.test_permissions"
     user_id: [[user_id]]
-    permission_name: PERMISSION
-    granted_date: DATE
 
+  # Using custom post object with overrides
   posts[[NB_POSTS]]:
+    object: "test.test_post"
     post_id: [[post_id]]
-    user_id: CHOOSE[[user_id]]
-    title: POST_TITLE
-    content: str
-    tags: POST_TAGS[3]
-    created_date: DATE
+    author: CHOOSE[[user_id]]  # Override to link to users

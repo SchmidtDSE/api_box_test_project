@@ -1,5 +1,5 @@
 name: versioned_db
-description: Versioned test database for toy_api - Version 0.2
+description: Versioned test database for toy_api - Version 0.2 (adopting core objects)
 
 config:
   NB_USERS: 10
@@ -8,13 +8,12 @@ shared:
   user_id[[NB_USERS]]: UNIQUE[int]
 
 tables:
+  # Version 0.2: Starting to use core objects
   users[[NB_USERS]]:
+    object: "core.user"
     user_id: [[user_id]]
-    name: NAME
-    email: str
-    active: bool
 
+  # Still using core objects for new tables
   user_permissions[[NB_USERS]]:
+    object: "core.user_permissions"
     user_id: [[user_id]]
-    permission_name: PERMISSION
-    granted_date: DATE

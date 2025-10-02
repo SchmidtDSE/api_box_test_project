@@ -1,3 +1,6 @@
+# Test database using custom objects and core objects
+# Demonstrates various object patterns for testing
+
 config:
   NB_USERS: 20
   NB_POSTS: 50
@@ -7,26 +10,31 @@ shared:
   post_id[[NB_POSTS]]: UNIQUE[int]
 
 tables:
+  # Using custom test.test_user object with overrides
   users[[NB_USERS]]:
-    user_id: [[user_id]]
-    name: NAME
-    email: str
-    age: CHOOSE[[21-65]]
-    location: LOCATION
-    active: bool
-    created_date: DATE[%Y-%m-%d %H:%M:%S]
+    object: "test.test_user"
+    user_id: [[user_id]]  # Override with shared user_id
 
+  # Using custom test.test_permissions object with shared data
   user_permissions[[NB_USERS]]:
+    object: "test.test_permissions"
     user_id: [[user_id]]
-    permission_name: PERMISSION
-    granted_date: DATE
-    granted_by: NAME
 
+  # Using custom test.test_post object with overrides and extensions
   posts[[NB_POSTS]]:
-    post_id: [[post_id]]
+    object: "test.test_post"
+    post_id: [[post_id]]     # Override with shared post_id
+    author: CHOOSE[[user_id]]  # Override to reference user
+    likes: int               # Extension: add likes field
+    views: int               # Extension: add views field
+
+  # Using core.user_profile (from built-in objects)
+  user_profiles[[NB_USERS]]:
+    object: "core.user_profile"
+    user_id: [[user_id]]
+
+  # Old syntax (no object) - for backward compatibility testing
+  active_users:
     user_id: CHOOSE[[user_id]]
-    title: POST_TITLE
-    content: str
-    tags: POST_TAGS[3]
-    published: bool
-    created_date: DATE
+    last_active: DATE[%Y-%m-%dT%H:%M:%SZ]
+    session_count: int
