@@ -33,7 +33,7 @@ tables:
     object: "core.user_profile"
     user_id: [[user_id]]
 
-  # Old syntax (no object) - for backward compatibility testing
+  # Custom table definition (no object reference)
   active_users:
     user_id: CHOOSE[[user_id]]
     last_active: DATE[%Y-%m-%dT%H:%M:%SZ]
