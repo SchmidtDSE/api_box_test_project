@@ -9,28 +9,28 @@ routes:
     response: "core.api_info"
 
   # Custom endpoint structure to test route mapping
-  - route: "/user-permissions/<user_id>"
+  - route: "/user-permissions/{{user_id}}"
     methods: ["GET"]
     response: "core.user_permissions"
 
-  - route: "/users/<user_id>"
+  - route: "/users/{{user_id}}"
     methods: ["GET"]
     response: "core.user"
 
-  - route: "/profiles/<user_id>"
+  - route: "/profiles/{{user_id}}"
     methods: ["GET"]
     response: "core.user_profile"
 
   # Additional routes for comprehensive testing
   - route: "/users"
     methods: ["GET"]
-    response: "user_list"  # List wrapper - keeps legacy for now
+    response: "core.user_list"
 
-  - route: "/users/<user_id>/settings"
+  - route: "/users/{{user_id}}/settings"
     methods: ["GET"]
     response: "core.user_settings"
 
-  - route: "/users/<user_id>/delete"
+  - route: "/users/{{user_id}}/delete"
     methods: ["DELETE"]
     response: "core.user"
 
