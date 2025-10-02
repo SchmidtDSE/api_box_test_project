@@ -4,7 +4,7 @@ authors:
   - API Team
 
 tables:
-  users: tables/users.parquet
+  users: databases/versioned_db/0.1/users.parquet
 
 routes:
   - route: users

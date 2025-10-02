@@ -4,12 +4,12 @@ authors:
   - API Team
 
 tables:
-  users: tables/users.parquet
-  user_permissions: tables/user_permissions.parquet
+  users: databases/versioned_db/0.2/users.parquet
+  user_permissions: databases/versioned_db/0.2/user_permissions.parquet
 
 queries:
   get_user_permissions: |
-    SELECT [[users]].user_id, [[users]].name, [[user_permissions]].permission_name
+    SELECT [[users]].user_id, [[users]].name, [[user_permissions]].permissions
     FROM [[users]]
     JOIN [[user_permissions]] ON [[users]].user_id = [[user_permissions]].user_id
     WHERE [[users]].user_id = {{user_id}}
